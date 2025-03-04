@@ -24,7 +24,7 @@ First mini game requirements:
                                         ---The board---
 The board have 9 locations where symbols X or O can be placed. 
 The index of each location is the same as the numbers on a numeric keypad 
-"
+
         |         |                           |         |         
     7   |    8    |    9                      |    O    |    O   
 ________|_________|_________          ________|_________|_________ 
@@ -34,4 +34,4 @@ ________|_________|_________          ________|_________|_________
         |         |                           |         |         
     1   |    2    |    3                      |         |        
         |         |                           |         |         
-"
+
