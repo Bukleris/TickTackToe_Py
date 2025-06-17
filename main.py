@@ -1,6 +1,6 @@
 import random
-
-# game board
+##Define engines
+# game board engine 
 def printGameBoard(board):
     print("\n")
     print(f"  {board[7]} | {board[8]} | {board[9]}")
@@ -10,7 +10,7 @@ def printGameBoard(board):
     print(f"  {board[1]} | {board[2]} | {board[3]}")
     print("\n")
 
-#win combinations
+# game win combinations 
 def check_winner(board, symbol):
     winning_combinations = [
         [1, 2, 3], [4, 5, 6], [7, 8, 9],  # Rows
@@ -21,56 +21,93 @@ def check_winner(board, symbol):
         if all(board[i] == symbol for i in combo):
             return True
     return False
-# full board
+
+# full board engine
 def is_board_full(board):
     return all(spot in ['X', 'O'] for spot in board.values())
 
+# game flip coin engine 
 def flip_coin():
     return random.choice(['heads', 'number'])
-#players 
+
+# replay function engine
+def replay():
+    choice = input("Play again? Enter Yes or No: ")
+    if choice.lower() == 'yes' or choice.lower() == 'y':
+        return True
+    else:
+        return False
+
+## Main game 
 def main():
-    board = {i: ' ' for i in range(1, 10)} #creates a dictionary where number becomes a key
+    print('Welcome to Tic Tac Toe')
+    
+    # Get player names
     player1 = input("Enter Player 1's name: ")
     player2 = input("Enter Player 2's name: ")
     
-#who start first 
-    choice = input(f"{player1}, choose heads or number: ").lower()
-    coin_flip = flip_coin()
-    
-    if coin_flip == choice:
-        current_player = player1
-    else:
-        current_player = player2
-    
-    print(f"Coin flip: {coin_flip}. {current_player} goes first!")
-#symbol for tic tac toe selection    
-    symbol_choice = input(f"{current_player}, choose your symbol (X or O): ").upper()
-    if symbol_choice == 'X':
-        player_symbols = {player1: 'X', player2: 'O'}
-    else:
-        player_symbols = {player1: 'O', player2: 'X'}
-#start
-    printGameBoard(board)
-#turns solution
+    ### Game setup
     while True:
-        move = int(input(f"{current_player}, enter a number to place your symbol: "))
-        if board[move] == ' ':
-            board[move] = player_symbols[current_player]
+        #  print new board each game
+        board = {i: ' ' for i in range(1, 10)}
+        
+        # flip whoes goes first
+        choice = input(f"{player1}, choose heads or number: ").lower()
+        coin_flip = flip_coin()
+        
+        if coin_flip == choice:
+            current_player = player1
         else:
-            print("That spot is already taken. Try again.")
-            continue
-#print after move
+            current_player = player2
+        
+        print(f"Coin flip: {coin_flip}. {current_player} goes first!")
+       
+        # symbols selection
+        symbol_choice = input(f"{current_player}, choose your symbol (X or O): ").upper()
+        if symbol_choice == 'X':
+            player_symbols = {player1: 'X', player2: 'O'}
+        else:
+            player_symbols = {player1: 'O', player2: 'X'}
+        
+        # print empty board
         printGameBoard(board)
-
-        if check_winner(board, player_symbols[current_player]):
-            print(f"{current_player} wins!")
+        
+        # GAME PLAY LOOP
+        while True:
+            # Players moves
+            move = int(input(f"{current_player}, enter a number to place your symbol: "))
+            
+            # Check if spot is empty
+            if board[move] == ' ':
+                board[move] = player_symbols[current_player]
+            else:
+                print("That spot is already taken. Try again.")
+                continue
+            
+            # print board after move    
+            printGameBoard(board)
+            
+            # Check winner
+            if check_winner(board, player_symbols[current_player]):
+                print(f"{current_player} wins!")
+                break
+            
+            # Check full board 
+            if is_board_full(board):
+                print("It's a tie!")
+                break
+            
+            # Switch to other player
+            if current_player == player1:
+                current_player = player2
+            else:
+                current_player = player1
+        
+        # replay 
+        if not replay():
+            print("Thanks for playing!")
             break
 
-        if is_board_full(board):
-            print("It's a tie!")
-            break
-
-        current_player = player1 if current_player == player2 else player2
-#call the game
+#run the game
 if __name__ == "__main__":
     main()
