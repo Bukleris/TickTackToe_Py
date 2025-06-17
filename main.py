@@ -1,4 +1,32 @@
 import random
+
+# game board
+def printGameBoard(board):
+    print("\n")
+    print(f"  {board[7]} | {board[8]} | {board[9]}")
+    print(" ---+---+---")
+    print(f"  {board[4]} | {board[5]} | {board[6]}")
+    print(" ---+---+---")
+    print(f"  {board[1]} | {board[2]} | {board[3]}")
+    print("\n")
+
+#win combinations
+def check_winner(board, symbol):
+    winning_combinations = [
+        [1, 2, 3], [4, 5, 6], [7, 8, 9],  # Rows
+        [1, 4, 7], [2, 5, 8], [3, 6, 9],  # Columns
+        [1, 5, 9], [3, 5, 7]              # Diagonals
+    ]
+    for combo in winning_combinations:
+        if all(board[i] == symbol for i in combo):
+            return True
+    return False
+# full board
+def is_board_full(board):
+    return all(spot in ['X', 'O'] for spot in board.values())
+
+def flip_coin():
+    return random.choice(['heads', 'number'])
 #players 
 def main():
     board = {i: ' ' for i in range(1, 10)} #creates a dictionary where number becomes a key
@@ -15,9 +43,7 @@ def main():
         current_player = player2
     
     print(f"Coin flip: {coin_flip}. {current_player} goes first!")
-
-#symbol for tic tac toe selection
-    
+#symbol for tic tac toe selection    
     symbol_choice = input(f"{current_player}, choose your symbol (X or O): ").upper()
     if symbol_choice == 'X':
         player_symbols = {player1: 'X', player2: 'O'}
